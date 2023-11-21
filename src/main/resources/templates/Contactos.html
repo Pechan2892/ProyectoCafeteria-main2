@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Lista de Contactos</title>
+    <!-- Agregar la hoja de estilos de Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <!-- Agregar la fuente de FontAwesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+          crossorigin="anonymous"/>
+    <!-- Estilo de fondo con gradiente -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #fab2ff 10%, #1904e5 100%);
+            background-attachment: fixed; /* Para mantener el fondo fijo mientras se desplaza */
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-pagination {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+
+        .custom-pagination li {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg" style="background-color: rgba(255, 251, 251, 0.719);">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="https://www.freepnglogos.com/uploads/coffee-logo-png/coffee-logo-design-creative-idea-logo-elements-2.png"
+                 alt="Coffe img" style="width: 2rem; height: 2rem;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/home}" style="margin-right: 25px;">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/contactos}" aria-disabled="true" style="margin-right: 25px;">Contactos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/productos/listar}" aria-disabled="true" style="margin-right: 25px;">Productos</a>
+                </li>
+            </ul>
+        </div>
+        <a th:href="@{/logoutUser}" class="custom-link">Cerrar sesion</a>
+        <span th:text="${usuario.email}" style="margin-right: 25px;"></span>
+    </div>
+</nav>
+
+<div class="btn-right">
+    <a th:href="@{/nuevoContacto}" class="btn btn-primary">Añadir Contacto</a>
+</div>
+
+<div class="container mt-5">
+    <h1 class="text-center">Lista de Contactos</h1>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Celular</th>
+            <th>Fecha Nacimiento</th>
+            <th>Fecha Registro</th>
+            <th>Acciones</th>
+            <!-- Agrega más columnas según sea necesario -->
+        </tr>
+        </thead>
+        <tbody>
+        <!-- En la sección de mostrar contactos -->
+        <tr th:each="contacto : ${contactosPage.content}">
+            <td th:text="${contacto.nombre}"></td>
+            <td th:text="${contacto.email}"></td>
+            <td th:text="${contacto.celular}"></td>
+            <td th:text="${#temporals.format(contacto.fechaNacimiento, 'dd/MM/yyyy')}"></td>
+
+            <td th:text="${contacto.fechaRegistro}"></td>
+            <td>
+                <a th:href="@{/editarContacto/{id}(id=${contacto.id})}" title="Editar">
+                    <i class="fa fa-pencil"></i>
+                </a>
+
+                <form th:action="@{/borrarContacto/{id}(id=${contacto.id})}" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este contacto?')">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </form>
+
+
+            </td>
+            <!-- Agrega más celdas según sea necesario -->
+        </tr>
+        </tbody>
+    </table>
+    <!-- Paginación de Bootstrap -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li th:if="${!contactosPage.first}" class="page-item">
+                <a class="page-link" th:href="@{/contactos(page=0)}" aria-label="Primero">
+                    <span aria-hidden="true"><i class="fa fa-angle-double-left"></i></span>
+                </a>
+            </li>
+            <li th:if="${!contactosPage.first}" class="page-item">
+                <a class="page-link" th:href="@{/contactos(page=${contactosPage.number - 1})}" aria-label="Anterior">
+                    <span aria-hidden="true"><i class="fa fa-angle-left"></i></span>
+                </a>
+            </li>
+            <li th:if="${!contactosPage.last}" class="page-item">
+                <a class="page-link" th:href="@{/contactos(page=${contactosPage.number + 1})}" aria-label="Siguiente">
+                    <span aria-hidden="true"><i class="fa fa-angle-right"></i></span>
+                </a>
+            </li>
+            <li th:if="${!contactosPage.last}" class="page-item">
+                <a class="page-link" th:href="@{/contactos(page=${contactosPage.totalPages - 1})}" aria-label="Último">
+                    <span aria-hidden="true"><i class="fa fa-angle-double-right"></i></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Detalle de Factura - Cafetería</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+    .container {
+      width: 80%;
+      margin: 20px auto;
+      background: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2, h3 {
+      color: #444;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .total {
+      text-align: right;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Detalle de Factura de la Cafetería</h1>
+  <div>
+    <h2 th:text="${factura.id}">ID Factura</h2>
+    <p><strong>Cliente:</strong> <span th:text="${factura.cliente}">Nombre del Cliente</span></p>
+    <p><strong>Fecha:</strong> <span th:text="${factura.fecha}">Fecha</span></p>
+
+    <h3>Artículos Comprados</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Ítem</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Iterar sobre los artículos de la factura -->
+      <tr th:each="item : ${factura.items}">
+        <td th:text="${item.nombre}">Nombre del Ítem</td>
+        <td th:text="${item.cantidad}">Cantidad</td>
+        <td th:text="${item.precio}">Precio</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="total">
+      <strong>Total:</strong> <span th:text="${factura.total}">Total</span>
+    </div>
+    <!-- Opcional: Cualquier nota adicional -->
+    <p th:if="${factura.nota}" th:text="${factura.nota}">Nota adicional</p>
+  </div>
+</div>
+</body>
+</html>

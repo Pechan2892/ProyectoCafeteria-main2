@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Otras etiquetas head aquí -->
+</head>
+<body>
+<!-- Contenido de la página de perfil del usuario -->
+<h1>Perfil de Usuario</h1>
+<p>Nombre: <span th:text="${usuario.nombre}"></span></p>
+<!-- Otros detalles del perfil del usuario aquí -->
+
+<!-- Etiqueta <img> para mostrar la imagen de perfil -->
+<img th:src="@{/imagenPerfil/{userId}(userId=${usuario.id})}" alt="Imagen de Perfil" />
+
+<!-- Más contenido de la página de perfil del usuario aquí -->
+</body>
+</html>

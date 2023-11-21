@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Producto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* Asegúrate de reemplazar esta URL con una ruta de imagen accesible en la web */
+            background-image: url('https://www.freepik.es/fotos-premium/delicioso-artistico-taza-cappuccino-sobre-mesa_52287419.htm');
+            background-size: cover;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Altura completa de la ventana */
+            margin: 0;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 50%; /* Ajuste del ancho del formulario */
+            max-width: 500px; /* Máximo ancho del formulario */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-sizing: border-box; /* Para que el ancho incluya el padding */
+        }
+
+        .producto-imagen {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%; /* Hacer que el botón se extienda a lo ancho */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <h1>Editar Producto</h1>
+
+    <form th:object="${producto}" th:action="@{/productos/editar/{id}(id=${producto.id})}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}" />
+        <div>
+            <label for="nombre">Nombre: </label>
+            <input type="text" id="nombre" th:field="*{nombre}" required minlength="3" maxlength="50"/>
+        </div>
+        <div>
+            <label for="precio">Precio: </label>
+            <input type="number" id="precio" th:field="*{precio}" required min="0" step="0.01"/>
+        </div>
+        <div>
+            <img th:if="${producto.imagen}" th:src="@{'/productos/imagen/' + ${producto.id}}" alt="Imagen del Producto" class="producto-imagen" />
+            <label for="imagenFile">Imagen: </label>
+            <input type="file" id="imagenFile" name="imagenFile" accept="image/*"/>
+        </div>
+        <input type="submit" value="Guardar"/>
+    </form>
+
+    <a th:href="@{/productos/listar}">Volver al listado</a>
+</div>
+
+</body>
+</html>
