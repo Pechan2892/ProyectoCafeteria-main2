@@ -126,7 +126,7 @@
                 <a class="page-link" th:href="@{/productos/listar(page=0)}">Primera</a>
             </li>
             <li th:each="i : ${#numbers.sequence(0, productosPage.totalPages-1)}" class="page-item">
-                <a class="page-link" th:href="@{/productos/listar(page=${i})}" th:text="${i+1}"></a>
+                <a class="page-link" th:href="@{/productos/listar(page=${i})}" th:text="${i + 1}">Página ${i + 1}</a>
             </li>
             <li th:if="${!productosPage.last}" class="page-item">
                 <a class="page-link" th:href="@{/productos/listar(page=${productosPage.totalPages-1})}">Última</a>

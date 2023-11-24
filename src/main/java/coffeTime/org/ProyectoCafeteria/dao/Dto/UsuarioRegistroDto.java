@@ -1,5 +1,6 @@
 package coffeTime.org.ProyectoCafeteria.dao.Dto;
-
+import coffeTime.org.ProyectoCafeteria.dao.entity.Usuario;
+import org.springframework.web.multipart.MultipartFile;
 import jakarta.validation.constraints.*;
 
 public class UsuarioRegistroDto {
@@ -27,8 +28,7 @@ public class UsuarioRegistroDto {
     @Size(min = 4, max = 15)
     private String password;
 
-    // Campo para la imagen de perfil
-    private byte[] imagenPerfil;
+    private MultipartFile archivoAdjunto;
 
     public Long getId() {
         return id;
@@ -70,36 +70,20 @@ public class UsuarioRegistroDto {
         this.password = password;
     }
 
-    // Getter y setter para la imagen de perfil
-    public byte[] getImagenPerfil() {
-        return imagenPerfil;
+    public MultipartFile getArchivoAdjunto() {
+        return archivoAdjunto;
     }
 
-    public void setImagenPerfil(byte[] imagenPerfil) {
-        this.imagenPerfil = imagenPerfil;
+    public void setArchivoAdjunto(MultipartFile archivoAdjunto) {
+        this.archivoAdjunto = archivoAdjunto;
     }
+    public Usuario convertirAUsuario() {
+        Usuario usuario = new Usuario();
+        usuario.setNombre(this.nombre);
+        usuario.setApellido(this.apellido);
+        usuario.setEmail(this.email);
+        // Establece otros campos del usuario si es necesario
 
-    public UsuarioRegistroDto(Long id, String nombre, String apellido, String email, String password, byte[] imagenPerfil) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
-        this.password = password;
-        this.imagenPerfil = imagenPerfil;
-    }
-
-    public UsuarioRegistroDto(String nombre, String apellido, String email, String password, byte[] imagenPerfil) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
-        this.password = password;
-        this.imagenPerfil = imagenPerfil;
-    }
-
-    public UsuarioRegistroDto(String email) {
-        this.email = email;
-    }
-
-    public UsuarioRegistroDto() {
+        return usuario;
     }
 }

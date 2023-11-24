@@ -1,5 +1,6 @@
 package coffeTime.org.ProyectoCafeteria.dao.entity;
 
+
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,14 +12,23 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "nombre")
     private String nombre;
+
     @Column(name = "apellido")
     private String apellido;
+
     private String email;
     private String password;
-    @Lob // Anotación para el campo de imagenPerfil
-    private byte[] imagenPerfil; // Campo para almacenar la imagen de perfil del usuario
+
+    @Lob
+    private byte[] imagenPerfil;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] archivoAdjunto;
+
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contacto> contactos = new ArrayList<>();
 
@@ -30,7 +40,6 @@ public class Usuario {
     )
     private Collection<Rol> roles;
 
-    // Constructores
     public Usuario() {
     }
 
@@ -112,6 +121,14 @@ public class Usuario {
         this.imagenPerfil = imagenPerfil;
     }
 
+    public byte[] getArchivoAdjunto() {
+        return archivoAdjunto;
+    }
+
+    public void setArchivoAdjunto(byte[] archivoAdjunto) {
+        this.archivoAdjunto = archivoAdjunto;
+    }
+
     public List<Contacto> getContactos() {
         return contactos;
     }
@@ -127,6 +144,4 @@ public class Usuario {
     public void setRoles(Collection<Rol> roles) {
         this.roles = roles;
     }
-
-
 }
